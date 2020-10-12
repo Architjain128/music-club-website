@@ -32,8 +32,13 @@ import './Home.css';
 
 
 
-
 class Home extends Component {
+
+
+// fetchSingleEvent = async () =>{
+//   const event = await axios.get('/landingPage/events/1')
+//   console.log(event.data)
+// }
 
   fetchEvents = () =>{
     axios.get('./landingPage/events')
@@ -108,6 +113,7 @@ class Home extends Component {
  async componentDidMount(){
 
   this.fetchEvents();
+  //this.fetchSingleEvent();
     function isElementInViewport(el){
       // if(typeof jquery === "function" && el instanceof jquery){
       //   el = el[0];
@@ -130,6 +136,13 @@ class Home extends Component {
     elemntsToShow.push(this.coordinator1.current);
     elemntsToShow.push(this.coordImage1.current);
     elemntsToShow.push(this.coordText1.current);
+    elemntsToShow.push(this.coordinator2.current);
+    elemntsToShow.push(this.coordImage2.current);
+    elemntsToShow.push(this.coordText2.current);
+    elemntsToShow.push(this.coordinator3.current);
+    elemntsToShow.push(this.coordImage3.current);
+    elemntsToShow.push(this.coordText3.current);
+
 
     function loop(){
       elemntsToShow.forEach(function(el){
@@ -286,6 +299,12 @@ class Home extends Component {
   coordinator1 = React.createRef();
   coordImage1  = React.createRef();
   coordText1 = React.createRef();
+  coordinator2 = React.createRef();
+  coordImage2  = React.createRef();
+  coordText2 = React.createRef();
+  coordinator3 = React.createRef();
+  coordImage3  = React.createRef();
+  coordText3 = React.createRef();
 
   handleChange = (e)=>{
     var {name , value} = e.target;
@@ -373,7 +392,7 @@ class Home extends Component {
     return (
       <React.Fragment>
         
-          <AwesomeSlider  fillParent={false} className="carousel " cssModule={styles} transitionDelay={500} mobileTouch={true} bullets={true} onTransitionStart={this.fade} onTransitionEnd={this.bringBack}  >
+          <AwesomeSlider  fillParent={false} className="carousel " cssModule={styles} transitionDelay={500} mobileTouch={true} bullets={false} onTransitionStart={this.fade} onTransitionEnd={this.bringBack}  >
             <div className="carouselDiv" id="img1">
               <div className="eventTextDiv" >
                 <h1 className={"eventTitle text-center"} ref={this.eventTitle1}>{this.state.latestEvent ?  this.state.latestEvent.name : ""}</h1>
@@ -390,7 +409,7 @@ class Home extends Component {
               <div className="eventTextDiv">
                 <h1 className=" eventTitle text-center" ref={this.eventTitle2}>{this.state.pastevent1 ? this.state.pastevent1.name : ""}</h1>
                 <p className="text-white text-center eventDesc" ref={this.eventDesc2}>{this.state.pastevent1 ? this.state.pastevent1.description : ""}</p>
-                <NavLink to = '/event'><button type="button" className="btn btn-white btn-animate  regBtn evtbtn " id="seeMore1" ref={this.moreBtn1}>
+                <NavLink to = {this.state.pastevent1 ? `/event/${this.state.pastevent1.id}` : `/event`}><button type="button" className="btn btn-white btn-animate  regBtn evtbtn " id="seeMore1" ref={this.moreBtn1}>
                       <span id="regBtnText">See More<i class="fa fa-info-circle" style={{'color' : 'white', 'fontSize' : '18px' , 'paddingLeft' : '11px'}}></i></span>
                     </button></NavLink>
               </div>
@@ -399,7 +418,7 @@ class Home extends Component {
               <div className="eventTextDiv">
                 <h1 className=" eventTitle text-center" ref={this.eventTitle3}>{this.state.pastevent2 ? this.state.pastevent2.name : ""}</h1>
                 <p className="text-white text-center eventDesc" ref={this.eventDesc3}>{this.state.pastevent2 ? this.state.pastevent2.description : ""}</p>
-                <NavLink to = '/event'><button type="button" className="btn btn-white btn-animate  regBtn evtbtn "  id="seeMore2" ref={this.moreBtn2}>
+                <NavLink to = {this.state.pastevent2 ? `/event/${this.state.pastevent2.id}` : `/event`}><button type="button" className="btn btn-white btn-animate  regBtn evtbtn "  id="seeMore2" ref={this.moreBtn2}>
                       <span id="regBtnText">See More<i class="fa fa-info-circle" style={{'color' : 'white', 'fontSize' : '18px' , 'paddingLeft' : '11px'}}></i></span>
                     </button></NavLink>
               </div>
@@ -409,7 +428,7 @@ class Home extends Component {
               <div className="eventTextDiv">
                 <h1 className=" eventTitle text-center" ref={this.eventTitle4}>{this.state.pastevent3 ? this.state.pastevent3.name : ""}</h1>
                 <p className="text-white text-center eventDesc" ref={this.eventDesc4}>{this.state.pastevent3 ? this.state.pastevent3.description : ""}</p>
-                <NavLink to = '/event'><button type="button" className="btn btn-white btn-animate  regBtn evtbtn "  id="seeMore3" ref={this.moreBtn3}>
+                <NavLink to = {this.state.pastevent3 ? `/event/${this.state.pastevent3.id}` : `/event`}><button type="button" className="btn btn-white btn-animate  regBtn evtbtn "  id="seeMore3" ref={this.moreBtn3}>
                       <span id="regBtnText">See More<i class="fa fa-info-circle" style={{'color' : 'white', 'fontSize' : '18px' , 'paddingLeft' : '11px'}}></i></span>
                     </button></NavLink>
               </div>
@@ -566,7 +585,7 @@ class Home extends Component {
           <h2 className='aboutHeadDiv py-5 px-4'>
               The Team
             </h2>
-          <div className="row">
+          <div className="row" id="c1">
             
             <div className="col-sm-8">
             <h1 ref={this.coordinator1} className='coordinatorHeadDiv py-5 px-4'>
@@ -586,7 +605,68 @@ class Home extends Component {
 
             
             </div>
+
+            <div className="row" id="c2">
+            
+            <div className="col-sm-8">
+            <h1 ref={this.coordinator2} className='coordinatorHeadDiv py-5 px-4'>
+              Name2 : Coordinator
+            </h1>
+
+            <div ref = {this.coordText2} className='coordinatorTextDiv card-blockquote' >
+              <span  >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit pellentesque bibendum. Donec eu ornare ex. Etiam pharetra dui elementum euismod mattis. Ut sollicitudin congue odio, sed tempor justo hendrerit vel. Vivamus fringilla dui a quam tincidunt finibus. Nullam sapien enim, ornare non condimentum in, pellentesque ac dolor. Donec vitae nibh eu magna accumsan maximus in sed magna. Ut accumsan gravida lectus. Maecenas eleifend nunc nisl, nec interdum augue fermentum a. Cras non ante quis turpis rhoncus eleifend. Aliquam ut facilisis diam. Nam egestas vehicula sem a pellentesque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum tempus bibendum justo a fermentum. Praesent a mollis velit. Pellentesque euismod dui id leo finibus ullamcorper.
+              Morbi eu leo diam. Fusce enim arta libero viverra, non auctor odio ultrices.
+              sdavvavsaavavbadsfdggfadffhggefgffgegdgfhgrgsfdgfbv
+              grwrdgfsefdgfgrgfhfgrwdgfnfgrwdgfnfgrw Nulla cursus eget elit vitae tincidunt. Nam a nibh ut nunc lobortis egestas quis sed lacus. Curabitur viverra lectus enim, ac malesuada lorem laoreet venenatis. Sed dui tellus, aliquam laoreet interdum et, gravida eu dui. Sed rhoncus auctor mi eget placerat. Integer nec lacus et mi luctus interdum quis at nisl. Cras a leo vitae arcu iaculis facilisis. Nam et dignissim neque. Nam varius varius accumsan. Vestibulum rutrum fringilla fermentum.
+              </span> </div>
+              </div>
+              <div ref={this.coordImage2} className='coordinatorImageDiv col-sm-4 view overlay card card-img-top'>
+              <img src={StockImage} className="coordinatorImage"/>
+            </div>
+
+            
+            </div>
+
+            <div className="row" id="c3">
+            
+            <div className="col-sm-8">
+            <h1 ref={this.coordinator3} className='coordinatorHeadDiv py-5 px-4'>
+              Name3 : Coordinator
+            </h1>
+
+            <div ref = {this.coordText3} className='coordinatorTextDiv card-blockquote' >
+              <span  >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit pellentesque bibendum. Donec eu ornare ex. Etiam pharetra dui elementum euismod mattis. Ut sollicitudin congue odio, sed tempor justo hendrerit vel. Vivamus fringilla dui a quam tincidunt finibus. Nullam sapien enim, ornare non condimentum in, pellentesque ac dolor. Donec vitae nibh eu magna accumsan maximus in sed magna. Ut accumsan gravida lectus. Maecenas eleifend nunc nisl, nec interdum augue fermentum a. Cras non ante quis turpis rhoncus eleifend. Aliquam ut facilisis diam. Nam egestas vehicula sem a pellentesque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum tempus bibendum justo a fermentum. Praesent a mollis velit. Pellentesque euismod dui id leo finibus ullamcorper.
+              Morbi eu leo diam. Fusce enim arta libero viverra, non auctor odio ultrices.
+              sdavvavsaavavbadsfdggfadffhggefgffgegdgfhgrgsfdgfbv
+              grwrdgfsefdgfgrgfhfgrwdgfnfgrwdgfnfgrw Nulla cursus eget elit vitae tincidunt. Nam a nibh ut nunc lobortis egestas quis sed lacus. Curabitur viverra lectus enim, ac malesuada lorem laoreet venenatis. Sed dui tellus, aliquam laoreet interdum et, gravida eu dui. Sed rhoncus auctor mi eget placerat. Integer nec lacus et mi luctus interdum quis at nisl. Cras a leo vitae arcu iaculis facilisis. Nam et dignissim neque. Nam varius varius accumsan. Vestibulum rutrum fringilla fermentum.
+              </span> </div>
+              </div>
+              <div ref={this.coordImage3} className='coordinatorImageDiv col-sm-4 view overlay card card-img-top'>
+              <img src={StockImage} className="coordinatorImage"/>
+            </div>
+
+            
+            </div>
+            
           </div>
+          
+
+          <div className= "jumbotron jumbotron-fluid text-center footer">
+            <h2 id = "follow_us">Follow us on :-</h2>
+            <p>
+            <i class="fab fa-facebook" style={{'color' : 'blue', 'fontSize' : '28px' , 'paddingLeft' : '11px'}}></i><a href="https://www.facebook.com/music.iiit" className="social">Music Club facebook page</a>
+            </p>
+
+            <p>
+            <i class="fab fa-instagram" style={{'color' : 'orange', 'fontSize' : '28px' , 'paddingLeft' : '11px'}}></i><a href="https://www.instagram.com/the_music_club.iiith/" className="social">Music Club instagram page</a>
+            </p>
+
+            <p>
+            <i class="fas fa-mail-bulk" style={{'color' : 'white', 'fontSize' : '28px' , 'paddingLeft' : '11px'}}></i><a href="" className="social">Music Club Mail</a>
+            </p>
+
+          </div>
+          
           
       </React.Fragment>
     )

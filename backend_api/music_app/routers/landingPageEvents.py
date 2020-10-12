@@ -33,18 +33,20 @@ async def get_registered(registered: schemas.RegisteredCreate = Body(...), db: S
     db.refresh(db_registered)
     return "Registration added to db!"
 
-@router.get('/events/getRegs/{id}' , response_model = List[schemas.Registered])
-async def get_registerations(* , id : int , db : Session = Depends(get_db)):
-    registrations = db.query(models.Registration).filter(models.Registration.event_id == id).all()
-    regData = []
-    if registrations != None:
-        for r in registrations:
-            regData.append(r.__dict__)
 
     
-    return regData
-    
 
+
+@router.get('/allEvents' , response_model = List[schemas.Event])
+async def get_all_events(db : Session = Depends(get_db)):
+    data = []
+    allEvents = db.query(models.Event).all()
+
+    if allEvents != None:
+        for e in allEvents:
+            data.append(e.__dict__)
+
+    return data
 
 @router.get('/events' , response_model = List[schemas.Event])
 async def get_event(db: Session = Depends(get_db)):
@@ -59,6 +61,17 @@ async def get_event(db: Session = Depends(get_db)):
             data.append(e.__dict__)
 
     return data
+
+@router.get('/events/{eventId}' , response_model = schemas.Event)
+async def get_event(eventId : int ,db: Session = Depends(get_db)):
+
+    event = db.query(models.Event).filter(models.Event.id == eventId).first()
+    
+    if event is None:
+        return "No event found"
+
+    
+    return event.__dict__
 
 @router.get('/photos' , response_model = List[schemas.Photo])
 async def get_photos(db : Session = Depends(get_db)):
